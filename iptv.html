@@ -2,29 +2,210 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>elitits iptv</title>
+<title>ElitaIPTV Premium</title>
 <style>
-body{background:#0d1117;color:#fff;font-family:Arial;margin:0}
-.top{padding:20px;background:#161b22}
-.wrap{max-width:1100px;margin:auto;padding:20px}
-.box,.cat{background:#161b22;border:1px solid #30363d;border-radius:10px;margin-bottom:12px}
-.box{padding:15px}
-input,select{width:100%;padding:10px;margin:5px 0;background:#0d1117;color:#fff;border:1px solid #30363d;border-radius:6px}
-button{padding:10px 14px;margin:3px;border:0;border-radius:6px;cursor:pointer}
-.primary{background:#2383ff;color:#fff}
-.cathead{padding:15px;cursor:pointer;font-weight:bold}
-.catbody{display:none}
-.channel{display:flex;justify-content:space-between;align-items:center;padding:10px 15px;border-top:1px solid #30363d}
-.channel-info{display:flex;align-items:center;gap:15px}
-.logo-img{width:45px;height:45px;object-fit:contain;background:#0d1117;border-radius:6px;border:1px solid #30363d}
-.logo-placeholder{width:45px;height:45px;display:flex;align-items:center;justify-content:center;background:#0d1117;border-radius:6px;border:1px solid #30363d;font-size:20px}
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:100}
-.modalbox{background:#161b22;padding:20px;max-width:600px;margin:8% auto;border-radius:10px}
-.modal-title-wrap{display:flex;align-items:center;gap:15px;margin-bottom:15px}
+:root {
+  --bg-main: #0d1117;
+  --bg-card: #161b22;
+  --border-color: #30363d;
+  --accent: #2383ff;
+  --accent-hover: #4ba3ff;
+  --danger: #da3637;
+  --danger-hover: #f85149;
+  --text-muted: #8b949e;
+}
+
+body {
+  background: var(--bg-main);
+  color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+.top {
+  padding: 20px;
+  background: linear-gradient(180deg, #1f242c 0%, var(--bg-card) 100%);
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.top h2 {
+  margin: 0;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.badge-admin {
+  background: rgba(218, 54, 55, 0.15);
+  color: #ff7b72;
+  border: 1px solid rgba(218, 54, 55, 0.4);
+  padding: 2px 8px;
+  font-size: 11px;
+  border-radius: 12px;
+  text-transform: uppercase;
+}
+
+.wrap {
+  max-width: 1100px;
+  margin: auto;
+  padding: 25px 20px;
+}
+
+.box, .cat {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  overflow: hidden;
+}
+
+.box { padding: 20px; }
+
+h1, h3 { margin-top: 0; font-weight: 600; }
+
+input, select {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  background: #090d13;
+  color: #fff;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-size: 14px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(35, 131, 255, 0.2);
+}
+
+button {
+  padding: 10px 16px;
+  margin: 4px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  cursor: pointer;
+  background: #21262d;
+  color: #c9d1d9;
+  font-weight: 500;
+  font-size: 14px;
+  transition: background 0.2s, transform 0.1s, color 0.2s;
+}
+
+button:hover {
+  background: #30363d;
+  color: #fff;
+}
+
+button:active { transform: scale(0.98); }
+
+.primary {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+}
+.primary:hover { background: var(--accent-hover); }
+
+.danger {
+  background: rgba(218, 54, 55, 0.1);
+  color: #f85149;
+  border: 1px solid rgba(218, 54, 55, 0.2);
+}
+.danger:hover {
+  background: var(--danger);
+  color: #fff;
+  border-color: transparent;
+}
+
+.cathead {
+  padding: 16px 20px;
+  cursor: pointer;
+  font-weight: 600;
+  background: #1f242c;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.2s;
+}
+.cathead:hover { background: #252b35; }
+
+.catbody { display: none; background: #12161c; }
+
+.channel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  border-top: 1px solid var(--border-color);
+  transition: background 0.2s;
+}
+.channel:hover { background: rgba(255,255,255,0.02); }
+
+.channel-info { display: flex; align-items: center; gap: 15px; }
+
+.logo-img { width: 48px; height: 48px; object-fit: contain; background: #0d1117; border-radius: 8px; border: 1px solid var(--border-color); }
+.logo-placeholder { width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; background: #0d1117; border-radius: 8px; border: 1px solid var(--border-color); font-size: 22px; }
+
+.channel-details b { font-size: 16px; color: #f0f6fc; }
+.channel-details small { color: var(--text-muted); font-size: 12px; margin-top: 2px; display: inline-block; }
+
+.actions-wrap { display: flex; align-items: center; gap: 8px; }
+
+.stream-count {
+  background: rgba(56, 139, 253, 0.15);
+  color: #58a6ff;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid rgba(56, 139, 253, 0.3);
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  z-index: 100;
+}
+.modalbox {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  padding: 24px;
+  max-width: 550px;
+  margin: 10% auto;
+  border-radius: 14px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+.modal-title-wrap { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 15px; }
+.modal-title-wrap h2 { margin: 0; font-size: 22px; }
+
+.feed-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #0d1117;
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin: 8px 0;
+  border: 1px solid var(--border-color);
+}
+.feed-info { font-weight: 500; font-size: 14px; }
+.feed-tag { font-size: 11px; background: #30363d; padding: 2px 6px; border-radius: 4px; margin-left: 6px; color: #e6edf3; }
 </style>
 </head>
 <body>
 <div id="app"></div>
+
 <script>
 const USER="niggerniggerniggerniggerniggerniggerniggerniggerniggerniggerniggerniggerniggerniggerniggernigger";
 const ADMIN="niggadmin";
@@ -38,11 +219,14 @@ function saveDB(){
 let isAdmin=false;
 
 function loginScreen(){
- app.innerHTML=`<div class="wrap"><div class="box">
- <h1>ElitaIPTV</h1>
- <input id="pw" type="password" placeholder="Code">
- <button class="primary" onclick="login()">Login</button>
- </div></div>`;
+ app.innerHTML = `
+ <div class="wrap" style="max-width: 400px; margin-top: 12%;">
+   <div class="box" style="text-align: center; padding: 30px;">
+     <h1 style="font-size: 28px; margin-bottom: 20px; letter-spacing: 1px;">ElitaIPTV</h1>
+     <input id="pw" type="password" placeholder="Enter Access Code">
+     <button class="primary" style="width: 100%; padding: 12px; margin-top: 10px;" onclick="login()">Access Dashboard</button>
+   </div>
+ </div>`;
 }
 
 function login(){
@@ -52,43 +236,66 @@ function login(){
 }
 
 function main(){
- app.innerHTML=`
- <div class="top"><h2>ElitaIPTV ${isAdmin?"Admin":""}</h2></div>
+ app.innerHTML = `
+ <div class="top">
+   <div class="wrap" style="padding:0; display:flex; justify-content:space-between; align-items:center;">
+     <h2>📺 ElitaIPTV ${isAdmin?`<span class="badge-admin">Admin</span>`:""}</h2>
+     ${isAdmin?`<button class="danger" onclick="location.reload()">Logout</button>`:''}
+   </div>
+ </div>
  <div class="wrap">
- ${isAdmin?adminPanel():""}
- <input id="search" placeholder="Search channels..." oninput="renderCategories()">
- <div id="cats"></div>
+   ${isAdmin?adminPanel():""}
+   <input id="search" style="padding: 14px;" placeholder="Search channels by name..." oninput="renderCategories()">
+   <div id="cats" style="margin-top: 20px;"></div>
  </div>
  <div class="modal" id="modal"><div class="modalbox" id="modalcontent"></div></div>`;
  renderCategories();
 }
 
 function adminPanel(){
- return `<div class="box">
- <h3>Add Channel</h3>
- <input id="category" placeholder="MWE or Poland">
- <input id="name" placeholder="Channel name">
- <input id="logo" placeholder="Logo URL">
- <input id="uid" placeholder="channel.index">
- <select id="feedtype"><option>SD</option><option>HD</option></select>
- <button class="primary" onclick="addChannel()">Add Channel</button>
+ return `
+ <div class="box" style="border-left: 4px solid var(--accent);">
+   <h3 style="display:flex; align-items:center; gap:8px;">✨ Management Control Panel</h3>
+   <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+     <input id="category" placeholder="Category (e.g. MWE or Poland)">
+     <input id="name" placeholder="Channel Name">
+   </div>
+   <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+     <input id="logo" placeholder="Logo Image URL">
+     <input id="uid" placeholder="Unique ID (channel.index)">
+   </div>
+   <select id="feedtype"><option>SD</option><option>HD</option></select>
+   <button class="primary" style="margin-top: 10px; width: 100%; padding: 12px;" onclick="addChannel()">Create Channel Entry</button>
  </div>`;
 }
 
 function addChannel(){
  const ch={
-  category:document.getElementById('category').value,
-  name:document.getElementById('name').value,
+  category:document.getElementById('category').value.trim(),
+  name:document.getElementById('name').value.trim(),
   logo:document.getElementById('logo').value.trim(),
-  uid:document.getElementById('uid').value,
+  uid:document.getElementById('uid').value.trim(),
   feed:document.getElementById('feedtype').value,
   streams:[]
  };
  if(!ch.category||!ch.name||!ch.uid){alert("Fill required fields");return;}
+ 
+ // Prevent duplicate UIDs which breaks mapping/deleting
+ if(db.channels.some(x => x.uid === ch.uid)) {
+   alert("A channel with this Unique ID already exists.");
+   return;
+ }
+
  db.channels.push(ch);
  saveDB();
  renderCategories();
- alert("Channel added");
+ 
+ // Clear inputs
+ document.getElementById('category').value = '';
+ document.getElementById('name').value = '';
+ document.getElementById('logo').value = '';
+ document.getElementById('uid').value = '';
+ alert("Channel added cleanly!");
 }
 
 function renderCategories(){
@@ -96,27 +303,35 @@ function renderCategories(){
  const categories=["MWE","Poland"];
  document.getElementById('cats').innerHTML=categories.map(cat=>{
    const list=db.channels.filter(c=>c.category===cat && c.name.toLowerCase().includes(q));
-   return `<div class="cat">
-   <div class="cathead" onclick="toggle('${cat}')">${cat} (${list.length})</div>
-   <div class="catbody" id="cat_${cat}">
-   ${list.map(ch=>{
-    const logoHtml = ch.logo ? `<img class="logo-img" src="${ch.logo}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="logo-placeholder" style="display:none">📺</div>` : `<div class="logo-placeholder">📺</div>`;
-    return `
-    <div class="channel">
-    <div class="channel-info">
-     ${logoHtml}
-     <div>
-      <b>${ch.name}</b><br>
-      <small>${ch.uid}</small>
+   return `
+   <div class="cat">
+     <div class="cathead" onclick="toggle('${cat}')">
+       <span>📂 ${cat}</span>
+       <span style="color: var(--text-muted); font-size: 14px;">${list.length} Channels</span>
      </div>
-    </div>
-    <div>
-    ${ch.streams && ch.streams.length>0?`📺 ${ch.streams.length}`:''}
-    <button onclick="showFeeds('${ch.uid}')">Feeds</button>
-    ${isAdmin?`<button class="primary" onclick="addStream('${ch.uid}')">+ Stream</button>`:''}
-    </div>
-    </div>`}).join('')}
-   </div></div>`;
+     <div class="catbody" id="cat_${cat}">
+       ${list.length === 0 ? `<div style="padding: 20px; color: var(--text-muted); font-size: 14px; text-align:center;">No channels found inside this directory.</div>` : ''}
+       ${list.map(ch=>{
+        const logoHtml = ch.logo ? `<img class="logo-img" src="${ch.logo}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="logo-placeholder" style="display:none">📺</div>` : `<div class="logo-placeholder">📺</div>`;
+        return `
+        <div class="channel">
+          <div class="channel-info">
+             ${logoHtml}
+             <div class="channel-details">
+              <b>${ch.name}</b><br>
+              <small>ID: ${ch.uid} • Native: ${ch.feed}</small>
+             </div>
+          </div>
+          <div class="actions-wrap">
+            ${ch.streams && ch.streams.length>0?`<span class="stream-count">⚡ ${ch.streams.length} links</span>`:''}
+            <button onclick="showFeeds('${ch.uid}')">Feeds</button>
+            ${isAdmin?`<button class="primary" onclick="addStream('${ch.uid}')">+ Link</button>`:''}
+            ${isAdmin?`<button class="danger" style="padding: 10px 12px;" onclick="deleteChannel('${ch.uid}')" title="Delete Channel">🗑️</button>`:''}
+          </div>
+        </div>`
+       }).join('')}
+     </div>
+   </div>`;
  }).join('');
 }
 
@@ -125,16 +340,24 @@ function toggle(cat){
  e.style.display=e.style.display==='block'?'none':'block';
 }
 
+function deleteChannel(uid){
+ if(confirm("Are you sure you want to permanently delete this channel and all its streams?")){
+   db.channels = db.channels.filter(x => x.uid !== uid);
+   saveDB();
+   renderCategories();
+ }
+}
+
 function addStream(uid){
- const feedType = prompt("Which feed does this use? (SD or HD)").toUpperCase();
+ const feedType = prompt("Which profile feed architecture does this stream use? (SD or HD)").toUpperCase();
  if (feedType !== "SD" && feedType !== "HD") {
-   alert("Invalid feed type. Must be SD or HD.");
+   alert("Invalid assignment. Must enter exactly SD or HD.");
    return;
  }
 
- const s=prompt("Enter stream URL");
+ const s=prompt("Paste secure stream playback URL:");
  if(!s)return;
-
+ 
  const ch=db.channels.find(x=>x.uid===uid);
  if(!ch.streams) ch.streams = [];
  ch.streams.push({
@@ -148,30 +371,54 @@ function addStream(uid){
 function showFeeds(uid){
  const ch=db.channels.find(x=>x.uid===uid);
  const logoHtml = ch.logo ? `<img class="logo-img" src="${ch.logo}" onerror="this.style.display='none'">` : '';
-
- let h=`
+ 
+ let h= `
  <div class="modal-title-wrap">
    ${logoHtml}
-   <h2>${ch.name}</h2>
+   <div>
+     <h2>${ch.name}</h2>
+     <span style="color: var(--text-muted); font-size:12px;">System Profile Index: ${ch.uid}</span>
+   </div>
  </div>`;
-
+ 
  if(!ch.streams || ch.streams.length===0){
-   h+="<p>No streams available.</p>";
+   h+="<p style='color: var(--text-muted); text-align: center; padding: 20px 0;'>No active streams parsed to index file.</p>";
  } else {
    ch.streams.forEach((s,i)=>{
       const streamUrl = typeof s === 'string' ? s : s.url;
-      const streamFeed = typeof s === 'object' ? ` (${s.feed})` : '';
-      h+=`<div style="margin: 8px 0;">Feed ${i+1}${streamFeed} <button onclick="copyFeed('${streamUrl}')">Copy Stream</button></div>`;
+      const streamFeed = typeof s === 'object' ? s.feed : 'Legacy';
+      h+=`
+      <div class="feed-row">
+        <div class="feed-info">
+          Index Link #${i+1} <span class="feed-tag">${streamFeed}</span>
+        </div>
+        <div>
+          <button class="primary" style="padding: 6px 12px; font-size:13px;" onclick="copyFeed('${streamUrl}')">Copy Link</button>
+          ${isAdmin?`<button class="danger" style="padding: 6px 10px; font-size:13px;" onclick="deleteStream('${ch.uid}', ${i})">Delete</button>`:''}
+        </div>
+      </div>`;
    });
  }
- h+=`<br><button onclick="closeModal()">Close</button>`;
+ h+=`<div style="text-align: right; margin-top: 20px;"><button style="padding: 10px 20px;" onclick="closeModal()">Dismiss</button></div>`;
  modalcontent.innerHTML=h;
  modal.style.display='block';
 }
 
+function deleteStream(chUid, streamIndex){
+ if(confirm("Remove this stream stream link?")){
+   const ch = db.channels.find(x => x.uid === chUid);
+   if(ch && ch.streams){
+     ch.streams.splice(streamIndex, 1);
+     saveDB();
+     renderCategories();
+     showFeeds(chUid); // Refresh the modal instantly to show changes
+   }
+ }
+}
+
 function copyFeed(s){
  navigator.clipboard.writeText(atob(s));
- alert("Copied");
+ alert("Link successfully loaded into clipboard buffer.");
 }
 
 function closeModal(){modal.style.display='none';}
