@@ -33,7 +33,7 @@ if (isset($_GET['action'])) {
 <html>
 <head>
 <meta charset="utf-8">
-<title>⚡ ELITA // IPTV PREMIUM ⚡</title>
+<title>iptv elity ervin nie masz wstepu</title>
 <style>
 :root {
   --bg-main: #060913;
@@ -360,7 +360,7 @@ let db = { channels: [] };
 let isAdmin = false;
 
 async function loadDB() {
-  app.innerHTML = `<div class="loading-screen">⚡ INITIALIZING CYBER STREAM MATRIX... ⚡</div>`;
+  app.innerHTML = `<div class="loading-screen">⚡ siema okno kocha cp ⚡</div>`;
   try {
     const res = await fetch(API_LOAD);
     db = await res.json() || { channels: [] };
@@ -368,7 +368,7 @@ async function loadDB() {
     loginScreen();
   } catch (err) {
     console.error(err);
-    app.innerHTML = `<div class="loading-screen" style="color:var(--danger-neon)">❌ CONNECTION BREAKDOWN. MATRIX OFFLINE.</div>`;
+    app.innerHTML = `<div class="loading-screen" style="color:var(--danger-neon)">nie wczytalo ci sie huju glupi</div>`;
   }
 }
 
@@ -406,7 +406,7 @@ function main(){
  app.innerHTML = `
  <div class="top">
    <div class="wrap" style="padding:0; display:flex; justify-content:space-between; align-items:center;">
-     <h2>⚡ ELITA // SYSTEM MATRIX ${isAdmin?`<span class="badge-admin">OVERRIDE</span>`:""}</h2>
+     <h2>⚡ ELITA // ADMIN ${isAdmin?`<span class="badge-admin">OVERRIDE</span>`:""}</h2>
      <button class="danger" style="padding: 8px 16px; font-size: 12px;" onclick="location.reload()">Disconnect</button>
    </div>
  </div>
