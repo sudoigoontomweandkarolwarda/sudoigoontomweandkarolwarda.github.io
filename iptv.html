@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ElitaIPTV Fixed</title>
+<style>
+body{background:#0d1117;color:#fff;font-family:Arial;margin:0}
+.top{padding:20px;background:#161b22}
+.wrap{max-width:1100px;margin:auto;padding:20px}
+.box,.cat{background:#161b22;border:1px solid #30363d;border-radius:10px;margin-bottom:12px}
+.box{padding:15px}
+input,select{width:100%;padding:10px;margin:5px 0;background:#0d1117;color:#fff;border:1px solid #30363d;border-radius:6px}
+button{padding:10px 14px;margin:3px;border:0;border-radius:6px;cursor:pointer}
+.primary{background:#2383ff;color:#fff}
+.cathead{padding:15px;cursor:pointer;font-weight:bold}
+.catbody{display:none}
+.channel{display:flex;justify-content:space-between;align-items:center;padding:10px 15px;border-top:1px solid #30363d}
+.channel-info{display:flex;align-items:center;gap:15px}
+.logo-img{width:45px;height:45px;object-fit:contain;background:#0d1117;border-radius:6px;border:1px solid #30363d}
+.logo-placeholder{width:45px;height:45px;display:flex;align-items:center;justify-content:center;background:#0d1117;border-radius:6px;border:1px solid #30363d;font-size:20px}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:100}
+.modalbox{background:#161b22;padding:20px;max-width:600px;margin:8% auto;border-radius:10px}
+.modal-title-wrap{display:flex;align-items:center;gap:15px;margin-bottom:15px}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+const USER="ervintocfel";
+const ADMIN="ervintocfeladmin";
+
+let db=JSON.parse(localStorage.getItem("elitaiptv_db")||'{"channels":[]}');
+
+function saveDB(){
+ localStorage.setItem("elitaiptv_db",JSON.stringify(db));
+}
+
+let isAdmin=false;
+
+function loginScreen(){
+ app.innerHTML=`<div class="wrap"><div class="box">
+ <h1>ElitaIPTV</h1>
+ <input id="pw" type="password" placeholder="Code">
+ <button class="primary" onclick="login()">Login</button>
+ </div></div>`;
+}
+
+function login(){
+ const p=pw.value;
+ if(p===USER||p===ADMIN){isAdmin=(p===ADMIN);main();}
+ else alert("Wrong code");
+}
+
+function main(){
+ app.innerHTML=`
+ <div class="top"><h2>ElitaIPTV ${isAdmin?"Admin":""}</h2></div>
+ <div class="wrap">
+ ${isAdmin?adminPanel():""}
+ <input id="search" placeholder="Search channels..." oninput="renderCategories()">
+ <div id="cats"></div>
+ </div>
+ <div class="modal" id="modal"><div class="modalbox" id="modalcontent"></div></div>`;
+ renderCategories();
+}
+
+function adminPanel(){
+ return `<div class="box">
+ <h3>Add Channel</h3>
+ <input id="category" placeholder="MWE or Poland">
+ <input id="name" placeholder="Channel name">
+ <input id="logo" placeholder="Logo URL">
+ <input id="uid" placeholder="channel.index">
+ <select id="feedtype"><option>SD</option><option>HD</option></select>
+ <button class="primary" onclick="addChannel()">Add Channel</button>
+ </div>`;
+}
+
+function addChannel(){
+ const ch={
+  category:document.getElementById('category').value,
+  name:document.getElementById('name').value,
+  logo:document.getElementById('logo').value.trim(),
+  uid:document.getElementById('uid').value,
+  feed:document.getElementById('feedtype').value,
+  streams:[]
+ };
+ if(!ch.category||!ch.name||!ch.uid){alert("Fill required fields");return;}
+ db.channels.push(ch);
+ saveDB();
+ renderCategories();
+ alert("Channel added");
+}
+
+function renderCategories(){
+ const q=(document.getElementById('search')?.value||'').toLowerCase();
+ const categories=["MWE","Poland"];
+ document.getElementById('cats').innerHTML=categories.map(cat=>{
+   const list=db.channels.filter(c=>c.category===cat && c.name.toLowerCase().includes(q));
+   return `<div class="cat">
+   <div class="cathead" onclick="toggle('${cat}')">${cat} (${list.length})</div>
+   <div class="catbody" id="cat_${cat}">
+   ${list.map(ch=>{
+    const logoHtml = ch.logo ? `<img class="logo-img" src="${ch.logo}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="logo-placeholder" style="display:none">📺</div>` : `<div class="logo-placeholder">📺</div>`;
+    return `
+    <div class="channel">
+    <div class="channel-info">
+     ${logoHtml}
+     <div>
+      <b>${ch.name}</b><br>
+      <small>${ch.uid}</small>
+     </div>
+    </div>
+    <div>
+    ${ch.streams && ch.streams.length>0?`📺 ${ch.streams.length}`:''}
+    <button onclick="showFeeds('${ch.uid}')">Feeds</button>
+    ${isAdmin?`<button class="primary" onclick="addStream('${ch.uid}')">+ Stream</button>`:''}
+    </div>
+    </div>`}).join('')}
+   </div></div>`;
+ }).join('');
+}
+
+function toggle(cat){
+ const e=document.getElementById('cat_'+cat);
+ e.style.display=e.style.display==='block'?'none':'block';
+}
+
+function addStream(uid){
+ const feedType = prompt("Which feed does this use? (SD or HD)").toUpperCase();
+ if (feedType !== "SD" && feedType !== "HD") {
+   alert("Invalid feed type. Must be SD or HD.");
+   return;
+ }
+
+ const s=prompt("Enter stream URL");
+ if(!s)return;
+
+ const ch=db.channels.find(x=>x.uid===uid);
+ if(!ch.streams) ch.streams = [];
+ ch.streams.push({
+   url: btoa(s),
+   feed: feedType
+ });
+ saveDB();
+ renderCategories();
+}
+
+function showFeeds(uid){
+ const ch=db.channels.find(x=>x.uid===uid);
+ const logoHtml = ch.logo ? `<img class="logo-img" src="${ch.logo}" onerror="this.style.display='none'">` : '';
+
+ let h=`
+ <div class="modal-title-wrap">
+   ${logoHtml}
+   <h2>${ch.name}</h2>
+ </div>`;
+
+ if(!ch.streams || ch.streams.length===0){
+   h+="<p>No streams available.</p>";
+ } else {
+   ch.streams.forEach((s,i)=>{
+      const streamUrl = typeof s === 'string' ? s : s.url;
+      const streamFeed = typeof s === 'object' ? ` (${s.feed})` : '';
+      h+=`<div style="margin: 8px 0;">Feed ${i+1}${streamFeed} <button onclick="copyFeed('${streamUrl}')">Copy Stream</button></div>`;
+   });
+ }
+ h+=`<br><button onclick="closeModal()">Close</button>`;
+ modalcontent.innerHTML=h;
+ modal.style.display='block';
+}
+
+function copyFeed(s){
+ navigator.clipboard.writeText(atob(s));
+ alert("Copied");
+}
+
+function closeModal(){modal.style.display='none';}
+
+loginScreen();
+</script>
+</body>
+</html>
